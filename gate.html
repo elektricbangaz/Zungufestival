@@ -55,7 +55,7 @@
 
     // --- Button ---
     function Button({ children, onClick, variant = "primary", className = "" }) {
-      const base = "relative px-8 py-4 font-bold transition-all duration-300 uppercase tracking-[0.2em] text-[10px] flex items-center justify-center gap-3 border font-mono cursor-crosshair";
+      const base = "relative px-8 py-4 font-bold transition-all duration-300 uppercase tracking-[0.15em] text-xs flex items-center justify-center gap-3 border font-mono cursor-crosshair";
       const styleMap = {
         primary:   { color: C.gold,  borderColor: `${C.gold}55`, backgroundColor: "transparent" },
         secondary: { color: C.white, borderColor: "rgba(255,255,255,0.2)", backgroundColor: "transparent" },
@@ -89,13 +89,13 @@
       return (
         <div className="flex flex-col gap-2 mb-8">
           <div className="flex justify-between items-center">
-            <label className="text-[8px] font-mono uppercase tracking-[0.3em] font-bold" style={{ color: C.gold }}>{label}</label>
-            <span className="text-[7px] font-mono" style={{ color: C.muted }}>[REQUIRED]</span>
+            <label className="text-xs font-mono uppercase tracking-[0.25em] font-bold" style={{ color: C.gold }}>{label}</label>
+            <span className="text-[10px] font-mono" style={{ color: C.muted }}>[REQUIRED]</span>
           </div>
           {type === "select" ? (
             <div className="relative">
               <select
-                className="w-full p-4 font-mono text-[10px] focus:outline-none appearance-none cursor-pointer uppercase tracking-widest"
+                className="w-full p-4 font-mono text-xs focus:outline-none appearance-none cursor-pointer uppercase tracking-wider"
                 style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }}
               >
                 {options.map(opt => (
@@ -110,7 +110,7 @@
             <input
               type={type}
               placeholder={placeholder}
-              className="p-4 font-mono text-[10px] focus:outline-none uppercase tracking-widest"
+              className="p-4 font-mono text-xs focus:outline-none uppercase tracking-wider"
               style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }}
               onFocus={e  => { e.target.style.borderColor = C.gold; }}
               onBlur={e   => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; }}
@@ -147,7 +147,7 @@
             >
               ZUNGU
             </h1>
-            <div className="flex items-center gap-6 uppercase font-bold text-[8px]" style={{ color: C.gold, letterSpacing: "0.5em" }}>
+            <div className="flex items-center gap-6 uppercase font-bold text-[11px]" style={{ color: C.gold, letterSpacing: "0.4em" }}>
               <span>Navy Island</span>
               <div className="w-1 h-1 rotate-45" style={{ backgroundColor: C.rust }} />
               <span>MMXXVII</span>
@@ -156,7 +156,7 @@
 
           {/* CTA block */}
           <div className="relative z-10 max-w-lg w-full">
-            <p className="text-[9px] uppercase tracking-[0.4em] mb-12 font-bold italic" style={{ color: C.muted }}>
+            <p className="text-xs uppercase tracking-[0.35em] mb-12 font-bold italic" style={{ color: C.muted }}>
               // ACCESS AUTHORIZATION REQUIRED
             </p>
             <div className="grid grid-cols-1 gap-4 max-w-xs mx-auto">
@@ -166,7 +166,7 @@
             </div>
             <button
               onClick={() => onRole("attendee")}
-              className="mt-20 text-[8px] uppercase tracking-[0.5em] transition-all flex items-center justify-center gap-4 w-full"
+              className="mt-20 text-xs uppercase tracking-[0.35em] transition-all flex items-center justify-center gap-4 w-full"
               style={{ color: C.muted }}
               onMouseEnter={e => { e.currentTarget.style.color = C.gold; }}
               onMouseLeave={e => { e.currentTarget.style.color = C.muted; }}
@@ -201,7 +201,7 @@
 
             <div className="mb-16">
               <div className="inline-block px-3 py-1 mb-8" style={{ border: `1px solid ${C.rust}66` }}>
-                <h3 className="text-[8px] uppercase tracking-[0.4em] font-bold" style={{ color: C.rust }}>
+                <h3 className="text-xs uppercase tracking-[0.35em] font-bold" style={{ color: C.rust }}>
                   {type === "investor" ? "STRATEGIC PARTNER" : "PRODUCTION UNIT"}
                 </h3>
               </div>
@@ -211,7 +211,7 @@
               >
                 {type === "investor" ? "Patient\nCapital." : "Technical\nStandard."}
               </h2>
-              <p className="text-[10px] leading-relaxed max-w-sm uppercase tracking-widest font-bold" style={{ color: C.muted }}>
+              <p className="text-sm leading-relaxed max-w-sm uppercase tracking-wider font-bold" style={{ color: C.muted }}>
                 {type === "investor"
                   ? "Securing long-term equity in the Portland Parish cultural revitalization project."
                   : "Registering credentials for the 2027 infrastructure build-out."}
@@ -243,42 +243,59 @@
       );
     }
 
+    // --- Shared label style helper ---
+    const SectionLabel = ({ children }) => (
+      <p className="text-xs uppercase tracking-[0.4em] font-bold mb-3 flex items-center gap-3" style={{ color: C.gold }}>
+        <span style={{ display:"inline-block", width:28, height:1, backgroundColor:`${C.gold}66` }} />
+        {children}
+      </p>
+    );
+
     // --- Dashboard View ---
     function DashboardView({ role, onReset }) {
-      const cards = [
-        { icon: <Target size={24} style={{ color: C.rust }} />, label: "Goal 01", title: "Cultural Anchor", body: "Establishing Jamaica as the global destination for high-net-worth electronic music pilgrimage." },
-        { icon: <BarChart3 size={24} style={{ color: C.gold }} />, label: "Goal 02", title: "Tourism Yield",   body: "Transitioning from low-yield mass tourism to high-margin, low-impact boutique experiences." },
-        { icon: <Compass size={24} style={{ color: C.rust }} />, label: "Goal 03", title: "Local Equity",    body: "Direct economic integration with Portland Parish labor and supply chains." },
+      const navLinks = [
+        { label: "Vision",      href: "#vision" },
+        { label: "Stages",      href: "stages.html" },
+        { label: "Activities",  href: "activities.html" },
       ];
+      const goals = [
+        { icon: <Target size={22} style={{ color: C.rust }} />,   num: "01", title: "Cultural Anchor", body: "Establishing Jamaica as the global destination for high-net-worth electronic music pilgrimage." },
+        { icon: <BarChart3 size={22} style={{ color: C.gold }} />, num: "02", title: "Tourism Yield",   body: "Transitioning from low-yield mass tourism to high-margin, low-impact boutique experiences." },
+        { icon: <Compass size={22} style={{ color: C.rust }} />,   num: "03", title: "Local Equity",    body: "Direct economic integration with Portland Parish labor and supply chains." },
+      ];
+      const pages = [
+        { label: "Stage Architecture", sub: "4 stages · Navy Island layout · sound specs", href: "stages.html",     accent: C.gold },
+        { label: "Activity Programme", sub: "Forest · water · wellness · cultural tours",  href: "activities.html", accent: C.rust },
+      ];
+
       return (
         <div className="min-h-screen font-mono" style={{ backgroundColor: C.black, color: C.white }}>
-          {/* Nav */}
+
+          {/* ── Nav ── */}
           <nav
-            className="flex justify-between items-center px-6 md:px-12 py-8 sticky top-0 z-50 backdrop-blur-xl"
-            style={{ borderBottom: "1px solid rgba(255,255,255,0.05)", backgroundColor: "rgba(6,8,8,0.9)" }}
+            className="flex justify-between items-center px-6 md:px-12 py-6 sticky top-0 z-50 backdrop-blur-xl"
+            style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", backgroundColor: "rgba(6,8,8,0.92)" }}
           >
-            <div className="text-2xl font-black tracking-tighter font-unbounded" style={{ color: C.white }}>ZUNGU</div>
-            <div className="hidden lg:flex gap-12 text-[9px] uppercase tracking-[0.3em] font-bold" style={{ color: C.muted }}>
-              {["Vision", "Financials", "Manifesto"].map(l => (
-                <a key={l} href="#"
-                  style={{ color: C.muted }}
+            <div className="text-xl font-black tracking-tighter font-unbounded" style={{ color: C.white }}>ZUNGU</div>
+            <div className="hidden md:flex gap-10" style={{ color: C.muted }}>
+              {navLinks.map(({ label, href }) => (
+                <a key={label} href={href}
+                  className="text-xs uppercase tracking-[0.25em] font-bold transition-colors"
+                  style={{ color: C.muted, textDecoration: "none" }}
                   onMouseEnter={e => { e.target.style.color = C.gold; }}
                   onMouseLeave={e => { e.target.style.color = C.muted; }}
-                >{l}</a>
+                >{label}</a>
               ))}
             </div>
-            <div
-              className="text-[8px] px-4 py-2 uppercase tracking-[0.2em] font-bold"
-              style={{ border: `1px solid ${C.gold}55`, color: C.gold }}
-            >
-              LOGGED: {role}
+            <div className="text-[11px] px-3 py-1.5 uppercase tracking-widest font-bold" style={{ border: `1px solid ${C.gold}55`, color: C.gold }}>
+              {role}
             </div>
           </nav>
 
-          {/* Hero */}
-          <header
-            className="relative flex items-center justify-center text-center px-8"
-            style={{ height: "85vh", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+          {/* ── Hero ── */}
+          <header id="vision"
+            className="relative flex items-center justify-center text-center px-6 md:px-12"
+            style={{ minHeight: "88vh", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
           >
             <div className="absolute inset-0 z-0 overflow-hidden">
               <img
@@ -287,27 +304,26 @@
                 style={{ opacity: 0.18, filter: "grayscale(1) brightness(0.5)" }}
                 alt=""
               />
-              <div
-                className="absolute inset-0"
-                style={{ background: `linear-gradient(to top, ${C.black}, rgba(6,8,8,0.4), transparent)` }}
-              />
+              <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${C.black} 0%, rgba(6,8,8,0.5) 50%, transparent 100%)` }} />
             </div>
 
-            <div className="relative z-10 max-w-5xl w-full">
-              <div className="flex items-center justify-center gap-4 mb-12">
-                <div className="w-8 h-[1px]" style={{ backgroundColor: C.gold }} />
-                <h2 className="text-[10px] uppercase tracking-[0.6em] font-bold" style={{ color: C.gold }}>
-                  ESTABLISHED 2027 &bull; PORT ANTONIO
-                </h2>
-                <div className="w-8 h-[1px]" style={{ backgroundColor: C.gold }} />
+            <div className="relative z-10 max-w-4xl w-full">
+              <div className="flex items-center justify-center gap-4 mb-10">
+                <div style={{ width: 32, height: 1, backgroundColor: C.gold }} />
+                <span className="text-xs uppercase tracking-[0.5em] font-bold" style={{ color: C.gold }}>
+                  Established 2027 &bull; Port Antonio
+                </span>
+                <div style={{ width: 32, height: 1, backgroundColor: C.gold }} />
               </div>
+
               <h1
-                className="font-black uppercase font-unbounded tracking-tighter leading-[0.85] mb-12 pre-wrap"
-                style={{ fontSize: "clamp(3.5rem,12vw,10rem)", color: C.white }}
+                className="font-black uppercase font-unbounded tracking-tighter leading-[0.88] mb-10 pre-wrap"
+                style={{ fontSize: "clamp(3rem,11vw,9rem)", color: C.white }}
               >
                 {role === "investor" ? "PATIENT\nCAPITAL" : "BRUTAL\nLUXURY"}
               </h1>
-              <p className="mx-auto text-[11px] leading-relaxed tracking-[0.3em] uppercase max-w-xl font-bold" style={{ color: C.muted }}>
+
+              <p className="mx-auto text-sm leading-relaxed tracking-widest uppercase max-w-lg font-bold" style={{ color: C.muted }}>
                 {role === "investor"
                   ? "A strategic argument for the revitalization of Navy Island through institutional cultural assets."
                   : "A greenfield destination experience defined by raw textures and refined architecture."}
@@ -315,38 +331,63 @@
             </div>
           </header>
 
-          {/* Cards */}
-          <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+          {/* ── Section: Strategic Goals ── */}
+          <section className="py-20 px-6 md:px-16 max-w-7xl mx-auto">
+            <SectionLabel>Strategic Goals</SectionLabel>
+            <h2 className="text-2xl md:text-3xl font-black font-unbounded uppercase tracking-tighter mb-12" style={{ color: C.white }}>
+              Why Zungu
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
-              {cards.map(({ icon, label, title, body }) => (
-                <div key={label} className="p-12" style={{ backgroundColor: C.black, border: "1px solid rgba(255,255,255,0.05)" }}>
-                  <div className="mb-8">{icon}</div>
-                  <h3 className="text-[8px] uppercase tracking-[0.4em] font-bold mb-4" style={{ color: C.muted }}>{label}</h3>
-                  <h4 className="text-xl font-unbounded font-black uppercase mb-6 tracking-tight" style={{ color: C.white }}>{title}</h4>
-                  <p className="text-[10px] leading-relaxed uppercase tracking-widest" style={{ color: C.muted }}>{body}</p>
+              {goals.map(({ icon, num, title, body }) => (
+                <div key={num} className="p-10" style={{ backgroundColor: C.black, border: "1px solid rgba(255,255,255,0.05)" }}>
+                  <div className="mb-6">{icon}</div>
+                  <p className="text-xs uppercase tracking-[0.35em] font-bold mb-3" style={{ color: C.muted }}>Goal {num}</p>
+                  <h3 className="text-lg font-unbounded font-black uppercase mb-4 tracking-tight" style={{ color: C.white }}>{title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: C.muted }}>{body}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* Footer */}
-          <footer className="py-24 text-center" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", backgroundColor: C.black }}>
-            <div className="text-3xl font-black font-unbounded tracking-tighter mb-4" style={{ color: C.white }}>ZUNGU</div>
-            <p className="text-[8px] tracking-[0.8em] uppercase mb-12" style={{ color: C.muted }}>
-              PORT ANTONIO &middot; JAMAICA &middot; 2027
-            </p>
-            <div className="flex justify-center gap-12">
-              <button
-                onClick={onReset}
-                className="text-[9px] uppercase tracking-widest font-bold pb-1"
-                style={{ color: C.gold, borderBottom: `1px solid ${C.gold}33` }}
-              >
-                Reset Session
-              </button>
-              <button className="text-[9px] uppercase tracking-widest font-bold" style={{ color: C.muted }}>
-                Network Status: Online
-              </button>
+          {/* ── Section: Explore the Festival ── */}
+          <section className="py-20 px-6 md:px-16 max-w-7xl mx-auto" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+            <SectionLabel>Explore the Festival</SectionLabel>
+            <h2 className="text-2xl md:text-3xl font-black font-unbounded uppercase tracking-tighter mb-12" style={{ color: C.white }}>
+              Programme &amp; Venues
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {pages.map(({ label, sub, href, accent }) => (
+                <a
+                  key={href}
+                  href={href}
+                  className="group block p-10 transition-all"
+                  style={{ border: `1px solid ${accent}22`, backgroundColor: "rgba(255,255,255,0.02)", textDecoration: "none" }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = `${accent}66`; e.currentTarget.style.backgroundColor = `${accent}08`; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = `${accent}22`; e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.02)"; }}
+                >
+                  <p className="text-xs uppercase tracking-[0.3em] font-bold mb-3" style={{ color: accent }}>{sub}</p>
+                  <h3 className="text-xl font-unbounded font-black uppercase tracking-tight mb-4" style={{ color: C.white }}>{label}</h3>
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold" style={{ color: accent }}>
+                    View details <ArrowRight size={13} />
+                  </div>
+                </a>
+              ))}
             </div>
+          </section>
+
+          {/* ── Footer ── */}
+          <footer className="py-20 text-center" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", backgroundColor: C.black }}>
+            <div className="text-2xl font-black font-unbounded tracking-tighter mb-3" style={{ color: C.white }}>ZUNGU</div>
+            <p className="text-xs tracking-[0.6em] uppercase mb-10" style={{ color: C.muted }}>
+              Port Antonio &middot; Jamaica &middot; 2027
+            </p>
+            <button
+              onClick={onReset}
+              className="text-xs uppercase tracking-widest font-bold pb-1"
+              style={{ color: C.gold, borderBottom: `1px solid ${C.gold}33` }}
+            >
+              ← Reset Session
+            </button>
           </footer>
         </div>
       );
