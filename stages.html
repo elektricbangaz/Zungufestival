@@ -169,12 +169,36 @@ footer{background:var(--bg);padding:40px 8vw;border-top:1px solid var(--border);
   .photo-grid{grid-template-columns:1fr;grid-template-rows:auto}
   .photo-cell.tall{grid-row:auto}
   .nbg,.side-dots{display:none}
-  .nav-links{display:none}
   nav,footer,.chapter,.sec,.night,.hero{padding-left:5vw;padding-right:5vw}
   footer{flex-direction:column;gap:20px}
   .fmeta{text-align:left}
   .hero-meta{gap:20px}
   .hstat{border-right:none;margin-right:0;padding-right:0}
+}
+@media(max-width:768px){
+  .nav-links{display:none;position:fixed;top:52px;left:0;right:0;background:rgba(4,8,10,.97);flex-direction:column;gap:0;border-bottom:1px solid rgba(200,168,75,.15);padding:0;list-style:none;z-index:99;}
+  .nav-links.open{display:flex;}
+  .nav-links li{border-bottom:1px solid rgba(200,168,75,.07);}
+  .nav-links a{display:block;padding:12px 8vw;height:auto;}
+  .ham{display:flex;}
+  .hero{min-height:100svh;}
+  nav,footer,.chapter,.sec,.night,.hero{padding-left:5vw;padding-right:5vw;}
+  .time-grid{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .ctable{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .ptable{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+}
+@media(max-width:480px){
+  .sc-body,.ngrid,.hgrid{grid-template-columns:1fr;gap:16px;}
+}
+
+/* ── HAMBURGER ── */
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:1000;}
+.ham span{display:block;width:22px;height:2px;background:var(--gold);transition:all .3s;}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham.open span:nth-child(2){opacity:0;}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+@media(max-width:768px){
+  .ham{display:flex;}
 }
 </style>
 </head>
@@ -189,6 +213,9 @@ footer{background:var(--bg);padding:40px 8vw;border-top:1px solid var(--border);
     <li><a href="#nights">Nights</a></li>
     <li><a href="#handoff">Handoff</a></li><li><a href="index.html">Brand</a></li><li><a href="activities.html">Activities</a></li>
   </ul>
+  <button class="ham" aria-label="Menu" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 <div class="side-dots">
   <div class="dot active"></div><div class="dot"></div><div class="dot"></div>

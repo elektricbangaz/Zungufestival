@@ -368,14 +368,34 @@ body {
   .zones-grid, .wellness-grid, .vip-grid, .sustain-grid { grid-template-columns:1fr 1fr; }
   .philosophy-grid { grid-template-columns:1fr; gap:2rem; }
   .hard-rule-grid  { grid-template-columns:1fr; }
-  .time-grid { grid-template-columns:70px repeat(2,1fr); }
-  .time-grid .tg-header:nth-child(n+4), .time-grid .tg-cell:nth-child(4n), .time-grid .tg-cell:nth-child(4n-0) { display:none; }
-  .dot-nav, .nav-links { display:none; }
+  .dot-nav { display:none; }
   .doc-footer { flex-direction:column; gap:1.5rem; }
   .footer-meta { text-align:left; }
 }
+@media (max-width:768px) {
+  .nav-links{display:none;position:fixed;top:52px;left:0;right:0;background:rgba(4,8,10,.97);flex-direction:column;gap:0;border-bottom:1px solid rgba(200,168,75,.15);padding:0;list-style:none;z-index:899;}
+  .nav-links.open{display:flex;}
+  .nav-links li{border-bottom:1px solid rgba(200,168,75,.07);}
+  .nav-links a{display:block;padding:12px 8vw;height:auto;}
+  .ham{display:flex;}
+  .hero{min-height:100svh;}
+  .hero, .philosophy-sec, .zones-sec, .wellness-sec, .vip-sec, .sustain-sec, .schedule-sec, .chapter { padding:48px 5vw; }
+  .time-grid{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .time-grid .tg-header:nth-child(n+4), .time-grid .tg-cell:nth-child(4n), .time-grid .tg-cell:nth-child(4n-0){display:none;}
+}
 @media (max-width:600px) {
   .zones-grid, .wellness-grid, .vip-grid, .sustain-grid { grid-template-columns:1fr; }
+  .hero, .philosophy-sec, .zones-sec, .wellness-sec, .vip-sec, .sustain-sec, .schedule-sec, .chapter { padding:40px 4vw; }
+}
+
+/* ── HAMBURGER ── */
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:1000;}
+.ham span{display:block;width:22px;height:2px;background:var(--gold);transition:all .3s;}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham.open span:nth-child(2){opacity:0;}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+@media(max-width:768px){
+  .ham{display:flex;}
 }
 </style>
 </head>

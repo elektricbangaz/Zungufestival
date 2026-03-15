@@ -320,10 +320,42 @@ section{padding:80px 8vw;border-bottom:1px solid rgba(200,168,75,.07);position:r
   .srow{grid-template-columns:60px 1fr;}
   .sdesc,.sgenre{display:none;}
   .statrow{grid-template-columns:1fr;}
-  .nav-links{display:none;}
+}
+@media(max-width:768px){
+  .top-nav{position:fixed;}
+  .nav-links{display:none;position:fixed;top:48px;left:0;right:0;background:rgba(6,8,8,.97);flex-direction:column;gap:0;border-bottom:1px solid rgba(200,168,75,.15);z-index:899;}
+  .nav-links.open{display:flex;}
+  .nav-link{height:44px;padding:0 6vw;border-left:none;border-bottom:1px solid rgba(200,168,75,.07);}
+  .ham{display:flex;}
+  .side-dots{display:none;}
+  .hero{min-height:100svh;padding-bottom:60px;}
+  .ch-inner{flex-direction:column;gap:12px;}
+  .ch-num{font-size:48px;}
+  .fin-grid{grid-template-columns:1fr;gap:24px;}
+  .loc-grid,.map-grid,.type-row,.vis-rules{grid-template-columns:1fr;}
+  .aud-grid,.ask-grid,.proof-grid{grid-template-columns:1fr;}
+  .ctable,.fin-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  section,div.chapter,.section{padding-left:5vw;padding-right:5vw;}
+  .closing-content,.hero-content{padding-left:5vw;padding-right:5vw;}
+  .closing-foot{flex-direction:column;}
 }
 @media(max-width:580px){
   .cgrid,.pgrid,.tgrid,.ggrid,.revgrid,.tline,.rmgrid,.pgrid2{grid-template-columns:1fr;}
+  .srow{grid-template-columns:60px 1fr;}
+  .sdesc,.sgenre{display:none;}
+}
+@media(max-width:480px){
+  .cgrid,.pgrid,.tgrid,.ggrid,.revgrid,.tline,.rmgrid,.pgrid2{grid-template-columns:1fr;}
+}
+
+/* ── HAMBURGER ── */
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:1000;}
+.ham span{display:block;width:22px;height:2px;background:var(--gold);transition:all .3s;}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.ham.open span:nth-child(2){opacity:0;}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+@media(max-width:768px){
+  .ham{display:flex;}
 }
 
 /* ── LOCATION ── */
@@ -594,6 +626,9 @@ section{padding:80px 8vw;border-bottom:1px solid rgba(200,168,75,.07);position:r
     <a class="nav-link" href="#location">Location</a><a class="nav-link" href="#partners">Partnerships</a><a class="nav-link" href="#ask">The Ask</a>
     <a class="nav-link" href="#roadmap">Roadmap</a><a class="nav-link" href="stages.html">Stages</a><a class="nav-link" href="activities.html">Activities</a>
   </div>
+  <button class="ham" aria-label="Menu" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <div class="side-dots" id="sideDots"></div>
