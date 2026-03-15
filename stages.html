@@ -182,13 +182,21 @@ footer{background:var(--bg);padding:40px 8vw;border-top:1px solid var(--border);
   .nav-links a{display:block;padding:12px 8vw;height:auto;}
   .ham{display:flex;}
   .hero{min-height:100svh;}
+  .chapter{padding:48px 5vw;}
+  .sec{padding:48px 5vw;}
+  .night{padding:48px 5vw;}
   nav,footer,.chapter,.sec,.night,.hero{padding-left:5vw;padding-right:5vw;}
   .time-grid{overflow-x:auto;-webkit-overflow-scrolling:touch;}
   .ctable{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
   .ptable{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  footer{flex-direction:column;gap:16px;}
+  .fmeta{text-align:left;}
 }
 @media(max-width:480px){
   .sc-body,.ngrid,.hgrid{grid-template-columns:1fr;gap:16px;}
+  .chapter{padding:40px 4vw;}
+  .sec{padding:40px 4vw;}
+  .night{padding:40px 4vw;}
 }
 
 /* ── HAMBURGER ── */
