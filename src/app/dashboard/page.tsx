@@ -13,7 +13,7 @@ const C = {
   white: '#F7F3EC',
 };
 
-type Role = 'investor' | 'supplier' | 'attendee' | null;
+type Role = 'investor' | 'partner' | null;
 type Stage = 'select' | 'form' | 'dashboard';
 
 function ArrowRight({ size = 24 }: { size?: number }) {
@@ -136,8 +136,7 @@ function RoleSelectView({ onRole }: { onRole: (r: Role) => void }) {
         </p>
         <div className="grid grid-cols-1 gap-4 max-w-xs mx-auto">
           <GateButton onClick={() => onRole('investor')} variant="primary">Investor Entrance</GateButton>
-          <GateButton onClick={() => onRole('supplier')} variant="secondary">Production &amp; Logistics</GateButton>
-          <GateButton onClick={() => onRole('attendee')} variant="secondary">General Admission</GateButton>
+          <GateButton onClick={() => onRole('partner')} variant="secondary">Partner Entrance</GateButton>
         </div>
       </div>
     </div>
@@ -171,19 +170,19 @@ function FormView({ type, onBack, onSubmit }: { type: Role; onBack: () => void; 
         <div className="mb-16">
           <div className="inline-block px-3 py-1 mb-8" style={{ border: `1px solid ${C.rust}66` }}>
             <h3 className="text-xs uppercase tracking-[0.35em] font-bold" style={{ color: C.rust }}>
-              {type === 'investor' ? 'STRATEGIC PARTNER' : 'PRODUCTION UNIT'}
+              {type === 'investor' ? 'STRATEGIC PARTNER' : 'PARTNER'}
             </h3>
           </div>
           <h2
             className="text-4xl font-black uppercase leading-tight tracking-tighter mb-6 pre-wrap"
             style={{ fontFamily: "'Unbounded', sans-serif", color: C.white }}
           >
-            {type === 'investor' ? 'Patient\nCapital.' : 'Technical\nStandard.'}
+            {type === 'investor' ? 'Patient\nCapital.' : 'Strategic\nAlliance.'}
           </h2>
           <p className="text-sm leading-relaxed max-w-sm uppercase tracking-wider font-bold" style={{ color: C.muted }}>
             {type === 'investor'
               ? 'Securing long-term equity in the Portland Parish cultural revitalization project.'
-              : 'Registering credentials for the 2027 infrastructure build-out.'}
+              : 'Formalising a strategic partnership in the 2027 Zungu Festival ecosystem.'}
           </p>
         </div>
 
@@ -198,8 +197,8 @@ function FormView({ type, onBack, onSubmit }: { type: Role; onBack: () => void; 
               </>
             ) : (
               <>
-                <InputField label="Specialization" type="select" options={['Stage Craft', 'Sound Eng', 'Lighting', 'Talent', 'Logistics']} />
-                <InputField label="Reference / Portfolio" placeholder="HTTPS://" />
+                <InputField label="Partnership Type" type="select" options={['Brand Sponsor', 'Vendor', 'Media', 'Community', 'Other']} />
+                <InputField label="Organisation / Portfolio" placeholder="HTTPS://" />
               </>
             )}
           </div>
@@ -279,12 +278,12 @@ function MainDashboard({ role, onReset }: { role: Role; onReset: () => void }) {
             className="font-black uppercase tracking-tighter leading-[0.88] mb-10 pre-wrap"
             style={{ fontFamily: "'Unbounded', sans-serif", fontSize: 'clamp(3rem,11vw,9rem)', color: C.white }}
           >
-            {role === 'investor' ? 'PATIENT\nCAPITAL' : 'BRUTAL\nLUXURY'}
+            {role === 'investor' ? 'PATIENT\nCAPITAL' : 'STRATEGIC\nPARTNER'}
           </h1>
           <p className="mx-auto text-sm leading-relaxed tracking-widest uppercase max-w-lg font-bold" style={{ color: C.muted }}>
             {role === 'investor'
               ? 'A strategic argument for the revitalization of Navy Island through institutional cultural assets.'
-              : 'A greenfield destination experience defined by raw textures and refined architecture.'}
+              : 'A collaborative framework for brands, vendors, and community partners in the Zungu ecosystem.'}
           </p>
         </div>
       </header>
@@ -347,7 +346,7 @@ export default function DashboardPage() {
 
   const handleRole = (r: Role) => {
     setRole(r);
-    setStage(r === 'attendee' ? 'dashboard' : 'form');
+    setStage('form');
   };
 
   return (
