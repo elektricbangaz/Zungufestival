@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZUNGU 2027 — Access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            unbounded: ['Unbounded', 'sans-serif'],
+            mono: ['Space Mono', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+  <!-- React + ReactDOM (UMD) -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <!-- Babel standalone — transforms JSX in the browser -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { background-color: #060808; cursor: crosshair; margin: 0; }
+    ::selection { background: #C8A84B; color: #060808; }
+    * { box-sizing: border-box; }
+    /* whitespace:pre-wrap for multi-line headings */
+    .pre-wrap { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+    const { useState } = React;
+    const { createRoot } = ReactDOM;
+
+    // Inline SVG icons (replaces lucide-react dependency)
+    const ArrowRight   = ({ size=24, style }) => <svg width={size} height={size} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>;
+    const X            = ({ size=24, style }) => <svg width={size} height={size} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>;
+    const Compass      = ({ size=24, style }) => <svg width={size} height={size} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>;
+    const ChevronRight = ({ size=24, style }) => <svg width={size} height={size} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>;
+    const Target       = ({ size=24, style }) => <svg width={size} height={size} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>;
+    const BarChart3    = ({ size=24, style }) => <svg width={size} height={size} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>;
+
+    // --- Design Tokens ---
+    const C = {
+      black: "#060808",
+      gold:  "#C8A84B",
+      cream: "#F2EBD9",
+      rust:  "#C45A2A",
+      muted: "#6B6355",
+      white: "#F7F3EC",
+    };
+
+    // --- Button ---
+    function Button({ children, onClick, variant = "primary", className = "" }) {
+      const base = "relative px-8 py-4 font-bold transition-all duration-300 uppercase tracking-[0.15em] text-xs flex items-center justify-center gap-3 border font-mono cursor-crosshair";
+      const styleMap = {
+        primary:   { color: C.gold,  borderColor: `${C.gold}55`, backgroundColor: "transparent" },
+        secondary: { color: C.white, borderColor: "rgba(255,255,255,0.2)", backgroundColor: "transparent" },
+        gold:      { color: C.black, borderColor: C.gold, backgroundColor: C.gold },
+      };
+      const hoverIn = {
+        primary:   e => { e.currentTarget.style.backgroundColor = C.gold;  e.currentTarget.style.color = C.black; },
+        secondary: e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.7)"; },
+        gold:      e => { e.currentTarget.style.filter = "brightness(1.1)"; },
+      };
+      const hoverOut = {
+        primary:   e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = C.gold; },
+        secondary: e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; },
+        gold:      e => { e.currentTarget.style.filter = ""; },
+      };
+      return (
+        <button
+          onClick={onClick}
+          className={`${base} ${className}`}
+          style={styleMap[variant]}
+          onMouseEnter={hoverIn[variant]}
+          onMouseLeave={hoverOut[variant]}
+        >
+          {children}
+        </button>
+      );
+    }
+
+    // --- Input ---
+    function InputField({ label, type = "text", placeholder, options }) {
+      return (
+        <div className="flex flex-col gap-2 mb-8">
+          <div className="flex justify-between items-center">
+            <label className="text-xs font-mono uppercase tracking-[0.25em] font-bold" style={{ color: C.gold }}>{label}</label>
+            <span className="text-[10px] font-mono" style={{ color: C.muted }}>[REQUIRED]</span>
+          </div>
+          {type === "select" ? (
+            <div className="relative">
+              <select
+                className="w-full p-4 font-mono text-xs focus:outline-none appearance-none cursor-pointer uppercase tracking-wider"
+                style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }}
+              >
+                {options.map(opt => (
+                  <option key={opt} value={opt} style={{ backgroundColor: C.black, color: C.cream }}>{opt}</option>
+                ))}
+              </select>
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: `${C.gold}55` }}>
+                <ChevronRight size={14} style={{ transform: "rotate(90deg)" }} />
+              </div>
+            </div>
+          ) : (
+            <input
+              type={type}
+              placeholder={placeholder}
+              className="p-4 font-mono text-xs focus:outline-none uppercase tracking-wider"
+              style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: C.white }}
+              onFocus={e  => { e.target.style.borderColor = C.gold; }}
+              onBlur={e   => { e.target.style.borderColor = "rgba(255,255,255,0.1)"; }}
+            />
+          )}
+        </div>
+      );
+    }
+
+    // --- Gate View ---
+    function GateView({ onRole }) {
+      return (
+        <div
+          className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden px-8 text-center font-mono"
+          style={{ backgroundColor: C.black }}
+        >
+          {/* Radial glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "radial-gradient(circle at center, rgba(200,168,75,0.06) 0%, transparent 70%)" }}
+          />
+
+          {/* Logo mark */}
+          <div className="relative z-10 mb-16 flex flex-col items-center">
+            <div className="w-20 h-20 mb-12 relative flex items-center justify-center">
+              <div className="absolute inset-0 rotate-45" style={{ border: `1px solid ${C.gold}33` }} />
+              <div className="w-12 h-12 flex items-center justify-center" style={{ border: `2px solid ${C.gold}` }}>
+                <div className="w-2 h-2" style={{ backgroundColor: C.gold }} />
+              </div>
+            </div>
+            <h1
+              className="text-6xl md:text-9xl font-black tracking-[-0.05em] uppercase font-unbounded mb-2"
+              style={{ color: C.white }}
+            >
+              ZUNGU
+            </h1>
+            <div className="flex items-center gap-6 uppercase font-bold text-[11px]" style={{ color: C.gold, letterSpacing: "0.4em" }}>
+              <span>Navy Island</span>
+              <div className="w-1 h-1 rotate-45" style={{ backgroundColor: C.rust }} />
+              <span>MMXXVII</span>
+            </div>
+          </div>
+
+          {/* CTA block */}
+          <div className="relative z-10 max-w-lg w-full">
+            <p className="text-xs uppercase tracking-[0.35em] mb-12 font-bold italic" style={{ color: C.muted }}>
+              // ACCESS AUTHORIZATION REQUIRED
+            </p>
+            <div className="grid grid-cols-1 gap-4 max-w-xs mx-auto">
+              <Button onClick={() => onRole("investor")}  variant="primary">Investor Entrance</Button>
+              <Button onClick={() => onRole("supplier")}  variant="secondary">Production &amp; Logistics</Button>
+              <Button onClick={() => onRole("attendee")}  variant="secondary">General Admission</Button>
+            </div>
+            <button
+              onClick={() => onRole("attendee")}
+              className="mt-20 text-xs uppercase tracking-[0.35em] transition-all flex items-center justify-center gap-4 w-full"
+              style={{ color: C.muted }}
+              onMouseEnter={e => { e.currentTarget.style.color = C.gold; }}
+              onMouseLeave={e => { e.currentTarget.style.color = C.muted; }}
+            >
+              View Strategic Vision <ArrowRight size={12} />
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // --- Form View ---
+    function FormView({ type, onBack, onSubmit }) {
+      return (
+        <div
+          className="min-h-screen w-full flex items-center justify-center p-6 font-mono"
+          style={{ backgroundColor: C.black }}
+        >
+          <div
+            className="max-w-2xl w-full p-12 md:p-20 shadow-2xl relative"
+            style={{ backgroundColor: C.black, border: "1px solid rgba(255,255,255,0.05)" }}
+          >
+            <button
+              onClick={onBack}
+              className="absolute top-10 right-10 transition-colors"
+              style={{ color: C.muted }}
+              onMouseEnter={e => { e.currentTarget.style.color = C.gold; }}
+              onMouseLeave={e => { e.currentTarget.style.color = C.muted; }}
+            >
+              <X size={20} />
+            </button>
+
+            <div className="mb-16">
+              <div className="inline-block px-3 py-1 mb-8" style={{ border: `1px solid ${C.rust}66` }}>
+                <h3 className="text-xs uppercase tracking-[0.35em] font-bold" style={{ color: C.rust }}>
+                  {type === "investor" ? "STRATEGIC PARTNER" : "PRODUCTION UNIT"}
+                </h3>
+              </div>
+              <h2
+                className="text-4xl font-black uppercase font-unbounded leading-tight tracking-tighter mb-6 pre-wrap"
+                style={{ color: C.white }}
+              >
+                {type === "investor" ? "Patient\nCapital." : "Technical\nStandard."}
+              </h2>
+              <p className="text-sm leading-relaxed max-w-sm uppercase tracking-wider font-bold" style={{ color: C.muted }}>
+                {type === "investor"
+                  ? "Securing long-term equity in the Portland Parish cultural revitalization project."
+                  : "Registering credentials for the 2027 infrastructure build-out."}
+              </p>
+            </div>
+
+            <form onSubmit={onSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10">
+                <InputField label="Entity Name"  placeholder="ENTER IDENTIFIER" />
+                <InputField label="Secure Email" placeholder="CONTACT@ZUNGU.COM" type="email" />
+                {type === "investor" ? (
+                  <>
+                    <InputField label="Capital Tier"  type="select" options={["$50K – $250K", "$250K – $1M", "$1M+"]} />
+                    <InputField label="Investor Type" type="select" options={["Strategic", "Individual", "VC", "Corporate"]} />
+                  </>
+                ) : (
+                  <>
+                    <InputField label="Specialization"       type="select" options={["Stage Craft", "Sound Eng", "Lighting", "Talent", "Logistics"]} />
+                    <InputField label="Reference / Portfolio" placeholder="HTTPS://" />
+                  </>
+                )}
+              </div>
+              <Button variant="gold" className="w-full mt-12 py-6" onClick={onSubmit}>
+                Submit Credentials
+              </Button>
+            </form>
+          </div>
+        </div>
+      );
+    }
+
+    // --- Shared label style helper ---
+    const SectionLabel = ({ children }) => (
+      <p className="text-xs uppercase tracking-[0.4em] font-bold mb-3 flex items-center gap-3" style={{ color: C.gold }}>
+        <span style={{ display:"inline-block", width:28, height:1, backgroundColor:`${C.gold}66` }} />
+        {children}
+      </p>
+    );
+
+    // --- Dashboard View ---
+    function DashboardView({ role, onReset }) {
+      const navLinks = [
+        { label: "Vision",      href: "#vision" },
+        { label: "Stages",      href: "stages.html" },
+        { label: "Activities",  href: "activities.html" },
+      ];
+      const goals = [
+        { icon: <Target size={22} style={{ color: C.rust }} />,   num: "01", title: "Cultural Anchor", body: "Establishing Jamaica as the global destination for high-net-worth electronic music pilgrimage." },
+        { icon: <BarChart3 size={22} style={{ color: C.gold }} />, num: "02", title: "Tourism Yield",   body: "Transitioning from low-yield mass tourism to high-margin, low-impact boutique experiences." },
+        { icon: <Compass size={22} style={{ color: C.rust }} />,   num: "03", title: "Local Equity",    body: "Direct economic integration with Portland Parish labor and supply chains." },
+      ];
+      const pages = [
+        { label: "Stage Architecture", sub: "4 stages · Navy Island layout · sound specs", href: "stages.html",     accent: C.gold },
+        { label: "Activity Programme", sub: "Forest · water · wellness · cultural tours",  href: "activities.html", accent: C.rust },
+      ];
+
+      return (
+        <div className="min-h-screen font-mono" style={{ backgroundColor: C.black, color: C.white }}>
+
+          {/* ── Nav ── */}
+          <nav
+            className="flex justify-between items-center px-6 md:px-12 py-6 sticky top-0 z-50 backdrop-blur-xl"
+            style={{ borderBottom: "1px solid rgba(255,255,255,0.06)", backgroundColor: "rgba(6,8,8,0.92)" }}
+          >
+            <div className="text-xl font-black tracking-tighter font-unbounded" style={{ color: C.white }}>ZUNGU</div>
+            <div className="hidden md:flex gap-10" style={{ color: C.muted }}>
+              {navLinks.map(({ label, href }) => (
+                <a key={label} href={href}
+                  className="text-xs uppercase tracking-[0.25em] font-bold transition-colors"
+                  style={{ color: C.muted, textDecoration: "none" }}
+                  onMouseEnter={e => { e.target.style.color = C.gold; }}
+                  onMouseLeave={e => { e.target.style.color = C.muted; }}
+                >{label}</a>
+              ))}
+            </div>
+            <div className="text-[11px] px-3 py-1.5 uppercase tracking-widest font-bold" style={{ border: `1px solid ${C.gold}55`, color: C.gold }}>
+              {role}
+            </div>
+          </nav>
+
+          {/* ── Hero ── */}
+          <header id="vision"
+            className="relative flex items-center justify-center text-center px-6 md:px-12"
+            style={{ minHeight: "88vh", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+          >
+            <div className="absolute inset-0 z-0 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1549413242-2b281f621764?auto=format&fit=crop&q=80&w=2000"
+                className="w-full h-full object-cover"
+                style={{ opacity: 0.18, filter: "grayscale(1) brightness(0.5)" }}
+                alt=""
+              />
+              <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${C.black} 0%, rgba(6,8,8,0.5) 50%, transparent 100%)` }} />
+            </div>
+
+            <div className="relative z-10 max-w-4xl w-full">
+              <div className="flex items-center justify-center gap-4 mb-10">
+                <div style={{ width: 32, height: 1, backgroundColor: C.gold }} />
+                <span className="text-xs uppercase tracking-[0.5em] font-bold" style={{ color: C.gold }}>
+                  Established 2027 &bull; Port Antonio
+                </span>
+                <div style={{ width: 32, height: 1, backgroundColor: C.gold }} />
+              </div>
+
+              <h1
+                className="font-black uppercase font-unbounded tracking-tighter leading-[0.88] mb-10 pre-wrap"
+                style={{ fontSize: "clamp(3rem,11vw,9rem)", color: C.white }}
+              >
+                {role === "investor" ? "PATIENT\nCAPITAL" : "BRUTAL\nLUXURY"}
+              </h1>
+
+              <p className="mx-auto text-sm leading-relaxed tracking-widest uppercase max-w-lg font-bold" style={{ color: C.muted }}>
+                {role === "investor"
+                  ? "A strategic argument for the revitalization of Navy Island through institutional cultural assets."
+                  : "A greenfield destination experience defined by raw textures and refined architecture."}
+              </p>
+            </div>
+          </header>
+
+          {/* ── Section: Strategic Goals ── */}
+          <section className="py-20 px-6 md:px-16 max-w-7xl mx-auto">
+            <SectionLabel>Strategic Goals</SectionLabel>
+            <h2 className="text-2xl md:text-3xl font-black font-unbounded uppercase tracking-tighter mb-12" style={{ color: C.white }}>
+              Why Zungu
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
+              {goals.map(({ icon, num, title, body }) => (
+                <div key={num} className="p-10" style={{ backgroundColor: C.black, border: "1px solid rgba(255,255,255,0.05)" }}>
+                  <div className="mb-6">{icon}</div>
+                  <p className="text-xs uppercase tracking-[0.35em] font-bold mb-3" style={{ color: C.muted }}>Goal {num}</p>
+                  <h3 className="text-lg font-unbounded font-black uppercase mb-4 tracking-tight" style={{ color: C.white }}>{title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: C.muted }}>{body}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ── Section: Explore the Festival ── */}
+          <section className="py-20 px-6 md:px-16 max-w-7xl mx-auto" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+            <SectionLabel>Explore the Festival</SectionLabel>
+            <h2 className="text-2xl md:text-3xl font-black font-unbounded uppercase tracking-tighter mb-12" style={{ color: C.white }}>
+              Programme &amp; Venues
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {pages.map(({ label, sub, href, accent }) => (
+                <a
+                  key={href}
+                  href={href}
+                  className="group block p-10 transition-all"
+                  style={{ border: `1px solid ${accent}22`, backgroundColor: "rgba(255,255,255,0.02)", textDecoration: "none" }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = `${accent}66`; e.currentTarget.style.backgroundColor = `${accent}08`; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = `${accent}22`; e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.02)"; }}
+                >
+                  <p className="text-xs uppercase tracking-[0.3em] font-bold mb-3" style={{ color: accent }}>{sub}</p>
+                  <h3 className="text-xl font-unbounded font-black uppercase tracking-tight mb-4" style={{ color: C.white }}>{label}</h3>
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold" style={{ color: accent }}>
+                    View details <ArrowRight size={13} />
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          {/* ── Footer ── */}
+          <footer className="py-20 text-center" style={{ borderTop: "1px solid rgba(255,255,255,0.05)", backgroundColor: C.black }}>
+            <div className="text-2xl font-black font-unbounded tracking-tighter mb-3" style={{ color: C.white }}>ZUNGU</div>
+            <p className="text-xs tracking-[0.6em] uppercase mb-10" style={{ color: C.muted }}>
+              Port Antonio &middot; Jamaica &middot; 2027
+            </p>
+            <button
+              onClick={onReset}
+              className="text-xs uppercase tracking-widest font-bold pb-1"
+              style={{ color: C.gold, borderBottom: `1px solid ${C.gold}33` }}
+            >
+              ← Reset Session
+            </button>
+          </footer>
+        </div>
+      );
+    }
+
+    // --- App ---
+    function App() {
+      const [stage, setStage] = useState("gate");
+      const [role,  setRole]  = useState(null);
+
+      const handleRole = r => {
+        setRole(r);
+        setStage(r === "attendee" ? "dashboard" : "form");
+      };
+      const handleSubmit = e => { e.preventDefault(); setStage("dashboard"); };
+
+      return (
+        <>
+          {stage === "gate"      && <GateView onRole={handleRole} />}
+          {stage === "form"      && <FormView type={role} onBack={() => setStage("gate")} onSubmit={handleSubmit} />}
+          {stage === "dashboard" && <DashboardView role={role} onReset={() => { setRole(null); setStage("gate"); }} />}
+        </>
+      );
+    }
+
+    createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
