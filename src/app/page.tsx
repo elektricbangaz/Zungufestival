@@ -17,7 +17,7 @@ export default function GatePage() {
   return (
     <div
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden px-8 text-center"
-      style={{ backgroundColor: '#060808', fontFamily: "'Space Mono', monospace" }}
+      style={{ backgroundColor: '#04080A', fontFamily: "'Space Mono', monospace" }}
     >
       {/* Radial glow */}
       <div
@@ -68,25 +68,23 @@ export default function GatePage() {
       <div className="relative z-10 w-full max-w-sm">
         <SignIn
           appearance={{
+            variables: {
+              colorPrimary: '#C8A84B',
+              colorBackground: '#0D2018',
+              colorText: '#F2EBD9',
+              colorInputBackground: '#04080A',
+              fontFamily: 'Space Mono, monospace',
+              borderRadius: '0px',
+            },
             elements: {
-              rootBox: 'w-full',
-              card: 'bg-transparent shadow-none border-none p-0',
-              headerTitle: 'text-white font-mono text-xs uppercase tracking-widest',
-              headerSubtitle: 'text-[#6B6355] font-mono text-xs',
-              formFieldLabel: 'text-[#C8A84B] font-mono text-[10px] uppercase tracking-[0.25em] font-bold',
-              formFieldInput:
-                'bg-white/5 border border-white/10 text-white font-mono text-xs uppercase tracking-wider focus:border-[#C8A84B] focus:ring-0 rounded-none',
-              formButtonPrimary:
-                'bg-transparent border border-[#C8A84B]/50 text-[#C8A84B] font-mono text-[11px] uppercase tracking-[0.15em] font-bold hover:bg-[#C8A84B] hover:text-black transition-all rounded-none shadow-none',
-              footerActionLink: 'text-[#C8A84B]',
-              footerActionText: 'text-[#6B6355] font-mono text-xs',
-              dividerLine: 'bg-white/8',
-              dividerText: 'text-[#6B6355] font-mono text-[10px]',
-              socialButtonsBlockButton:
-                'border border-white/10 bg-transparent text-white font-mono text-xs hover:border-white/30 rounded-none',
-              identityPreviewText: 'text-white font-mono text-xs',
-              identityPreviewEditButton: 'text-[#C8A84B]',
-              alertText: 'font-mono text-xs',
+              card: {
+                border: '1px solid rgba(200,168,75,0.2)',
+                boxShadow: 'none',
+              },
+              headerTitle: { display: 'none' },
+              headerSubtitle: { display: 'none' },
+              socialButtonsBlockButton: { display: 'none' },
+              dividerRow: { display: 'none' },
             },
           }}
         />
