@@ -42,7 +42,7 @@ export default function LandingPage() {
       <div style={{ position: 'relative', zIndex: 10, minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 8vw 0' }}>
         <div style={{ paddingBottom: '180px' }}>
           <p style={{
-            fontSize: '9px', letterSpacing: '0.5em', textTransform: 'uppercase',
+            fontSize: '11px', letterSpacing: '0.5em', textTransform: 'uppercase',
             color: 'rgba(242,235,217,0.5)', marginBottom: '36px',
           }}>
             Navy Island &nbsp;·&nbsp; Port Antonio &nbsp;·&nbsp; Jamaica
@@ -65,7 +65,7 @@ export default function LandingPage() {
             color: '#F7F3EC',
             marginBottom: '32px',
           }}>
-            ZUNGU<br /><em style={{ fontStyle: 'italic', color: 'rgba(247,243,236,0.6)' }}>FESTIVAL</em>
+            ZUNGU<br /><em style={{ fontStyle: 'italic', color: '#C8A84B' }}>FESTIVAL</em>
             <span style={{
               display: 'block',
               fontFamily: "'Space Mono', monospace",
@@ -78,7 +78,7 @@ export default function LandingPage() {
             }}>MMXXVII</span>
           </h1>
 
-          <p style={{ fontSize: 'clamp(13px, 1.4vw, 17px)', lineHeight: 1.7, color: 'rgba(242,235,217,0.7)', maxWidth: '480px', marginBottom: '44px' }}>
+          <p style={{ fontSize: 'clamp(15px, 1.6vw, 20px)', lineHeight: 1.7, color: 'rgba(242,235,217,0.7)', maxWidth: '480px', marginBottom: '44px' }}>
             A private island. Open water. Seven days.<br />
             Electronic music the way it was always<br />
             <span style={{ color: '#C8A84B' }}>meant to feel.</span>
