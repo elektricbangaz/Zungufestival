@@ -1,22 +1,30 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-const isInvestorRoute = createRouteMatcher(['/deck(.*)']);
-const isPartnerRoute = createRouteMatcher(['/partner(.*)']);
-const isProtectedRoute = createRouteMatcher(['/deck(.*)', '/partner(.*)']);
+const INVESTOR_PATHS = ['/deck'];
+const PARTNER_PATHS = ['/partner'];
 
-export default clerkMiddleware(async (auth, req) => {
-  // ── GUEST TOKEN BYPASS ──────────────────────────────────────────
-  // Cookie already set — let them through without Clerk
-  const guestCookie = req.cookies.get('zungu_guest')?.value;
-  if (guestCookie === '1' && isProtectedRoute(req)) {
+function matchesPath(pathname: string, paths: string[]) {
+  return paths.some(p => pathname === p || pathname.startsWith(p + '/'));
+}
+
+export function middleware(req: NextRequest) {
+  const { pathname, searchParams } = req.nextUrl;
+
+  const isInvestor = matchesPath(pathname, INVESTOR_PATHS);
+  const isPartner = matchesPath(pathname, PARTNER_PATHS);
+
+  if (!isInvestor && !isPartner) return NextResponse.next();
+
+  // ── GUEST COOKIE BYPASS ──────────────────────────────────────────
+  if (req.cookies.get('zungu_guest')?.value === '1') {
     return NextResponse.next();
   }
 
-  // ?access=TOKEN in URL — set cookie and redirect to clean URL
-  const token = req.nextUrl.searchParams.get('access');
-  if (token && token === process.env.GUEST_ACCESS_TOKEN && isProtectedRoute(req)) {
-    const cleanUrl = new URL(req.nextUrl.pathname, req.url);
+  // ── GUEST TOKEN IN URL ───────────────────────────────────────────
+  const token = searchParams.get('access');
+  if (token && token === process.env.GUEST_ACCESS_TOKEN) {
+    const cleanUrl = new URL(pathname, req.url);
     const res = NextResponse.redirect(cleanUrl);
     res.cookies.set('zungu_guest', '1', {
       httpOnly: true,
@@ -26,20 +34,12 @@ export default clerkMiddleware(async (auth, req) => {
     });
     return res;
   }
-  // ── END BYPASS ──────────────────────────────────────────────────
+  // ── END BYPASS ───────────────────────────────────────────────────
 
-  const { userId, sessionClaims } = await auth();
-  const role = (sessionClaims?.metadata as Record<string, unknown>)?.role as string | undefined;
-
-  if (isInvestorRoute(req)) {
-    if (!userId) return NextResponse.redirect(new URL('/sign-in?role=investor', req.url));
-    if (role !== 'investor') return NextResponse.redirect(new URL('/sign-in?role=investor', req.url));
-  }
-  if (isPartnerRoute(req)) {
-    if (!userId) return NextResponse.redirect(new URL('/sign-in?role=partner', req.url));
-    if (role !== 'partner') return NextResponse.redirect(new URL('/sign-in?role=partner', req.url));
-  }
-});
+  // No valid session or token → send to sign-in
+  const role = isInvestor ? 'investor' : 'partner';
+  return NextResponse.redirect(new URL(`/sign-in?role=${role}`, req.url));
+}
 
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
