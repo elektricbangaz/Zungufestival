@@ -209,7 +209,7 @@ function SignInContent() {
         {/* Clerk form — fully overridden above */}
         <SignIn
           routing="hash"
-          afterSignInUrl={isPartner ? '/partner' : '/deck'}
+          forceRedirectUrl={isPartner ? '/partner' : '/deck'}
           appearance={{
             variables: {
               colorPrimary: accent,
@@ -240,14 +240,6 @@ function SignInContent() {
               socialButtonsVariant: 'iconButton',
               socialButtonsPlacement: 'bottom',
             },
-          }}
-          localization={{
-            formButtonPrimary: 'Enter →',
-            footerActionText: 'Access not granted?',
-            footerActionLink: 'Request invitation',
-            formFieldLabel__emailAddress: 'Email Address',
-            formFieldLabel__password: 'Password',
-            formFieldInputPlaceholder__emailAddress: 'your@email.com',
           }}
         />
 
