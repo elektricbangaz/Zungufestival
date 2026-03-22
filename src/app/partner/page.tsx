@@ -22,7 +22,7 @@ const CREAM = '#F2EBD9';
 const MUTED = 'rgba(242,235,217,0.4)';
 
 const sLabel: React.CSSProperties = {
-  fontSize: '9px', letterSpacing: '0.6em', color: GOLD,
+  fontSize: '11px', letterSpacing: '0.6em', color: GOLD,
   textTransform: 'uppercase', marginBottom: '36px',
   display: 'flex', alignItems: 'center', gap: '14px',
 };
@@ -33,7 +33,7 @@ const sTitle: React.CSSProperties = {
   color: CREAM,
 };
 const bodyText: React.CSSProperties = {
-  fontSize: '13px', lineHeight: 1.85, color: MUTED,
+  fontSize: '15px', lineHeight: 1.85, color: MUTED,
   maxWidth: '680px', marginBottom: '20px',
 };
 const section: React.CSSProperties = {
@@ -47,14 +47,14 @@ const cardBase: React.CSSProperties = {
 };
 const cardTitle: React.CSSProperties = {
   fontFamily: "'Unbounded', sans-serif",
-  fontSize: '14px', fontWeight: 700,
+  fontSize: '16px', fontWeight: 700,
   letterSpacing: '0.04em', marginBottom: '10px',
 };
 const cardSub: React.CSSProperties = {
-  fontSize: '9px', letterSpacing: '0.2em',
+  fontSize: '11px', letterSpacing: '0.2em',
   color: MUTED, textTransform: 'uppercase', marginBottom: '16px',
 };
-const cardBody: React.CSSProperties = { fontSize: '12px', lineHeight: 1.75, color: MUTED };
+const cardBody: React.CSSProperties = { fontSize: '14px', lineHeight: 1.75, color: MUTED };
 
 function SLabel({ children, color }: { children: React.ReactNode; color?: string }) {
   return (
@@ -80,7 +80,7 @@ function HomeTab({ onCTA }: { onCTA: () => void }) {
   return (
     <>
       <div style={{ ...section, paddingTop: '80px', background: `linear-gradient(to bottom, rgba(13,32,24,0.6) 0%, ${BG} 100%)` }}>
-        <div style={{ fontSize: '9px', letterSpacing: '0.4em', color: TEAL, textTransform: 'uppercase', marginBottom: '16px' }}>Partner Portal</div>
+        <div style={{ fontSize: '11px', letterSpacing: '0.4em', color: TEAL, textTransform: 'uppercase', marginBottom: '16px' }}>Partner Portal</div>
         <h1 style={{ fontFamily: "'Unbounded', sans-serif", fontSize: 'clamp(52px,8vw,96px)', fontWeight: 900, lineHeight: 0.92, letterSpacing: '-0.03em', color: CREAM, marginBottom: '0' }}>
           Welcome<br />to the
         </h1>
@@ -156,7 +156,7 @@ function BrandTab() {
           <div style={{ fontFamily: "'Unbounded', sans-serif", fontSize: 'clamp(13px,1.8vw,20px)', fontWeight: 300, lineHeight: 1.6, color: '#fff', marginBottom: '8px' }}>
             &ldquo;The booking that generates the think piece sells more tickets than the booking that generates the most social media impressions.&rdquo;
           </div>
-          <div style={{ fontSize: '8px', letterSpacing: '0.4em', color: GOLD, textTransform: 'uppercase' }}>Curation Principle</div>
+          <div style={{ fontSize: '10px', letterSpacing: '0.4em', color: GOLD, textTransform: 'uppercase' }}>Curation Principle</div>
         </div>
       </div>
     </>
@@ -251,13 +251,13 @@ function CTATab() {
   const inputStyle: React.CSSProperties = {
     width: '100%', background: 'transparent',
     border: 'none', borderBottom: '1px solid rgba(242,235,217,0.15)',
-    color: CREAM, fontSize: '12px', padding: '8px 0',
+    color: CREAM, fontSize: '14px', padding: '8px 0',
     outline: 'none', fontFamily: "'Space Mono', monospace",
     letterSpacing: '0.05em',
   };
 
   const labelStyle: React.CSSProperties = {
-    display: 'block', fontSize: '9px', letterSpacing: '0.35em',
+    display: 'block', fontSize: '11px', letterSpacing: '0.35em',
     color: 'rgba(242,235,217,0.4)', textTransform: 'uppercase', marginBottom: '8px',
   };
 
@@ -302,7 +302,7 @@ function CTATab() {
         {submitted ? (
           <div style={{ padding: '28px', border: '1px solid rgba(74,175,160,0.3)', background: 'rgba(74,175,160,0.05)' }}>
             <div style={{ fontFamily: "'Unbounded', sans-serif", fontSize: '14px', color: TEAL, marginBottom: '8px' }}>Received.</div>
-            <div style={{ fontSize: '11px', color: MUTED, lineHeight: 1.7 }}>We&apos;ll be in touch within 48 hours.</div>
+            <div style={{ fontSize: '13px', color: MUTED, lineHeight: 1.7 }}>We&apos;ll be in touch within 48 hours.</div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '560px' }}>
@@ -387,7 +387,7 @@ export default function PartnerPage() {
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
-                fontSize: '8px', letterSpacing: '0.4em',
+                fontSize: '9px', letterSpacing: '0.4em',
                 color: activeTab === t.id ? (t.id === 'cta' ? TEAL : GOLD) : MUTED,
                 textTransform: 'uppercase', padding: '0 18px', height: '52px',
                 display: 'flex', alignItems: 'center', cursor: 'pointer',
@@ -402,7 +402,7 @@ export default function PartnerPage() {
           <button
             onClick={() => signOut(() => router.push('/'))}
             style={{
-              fontSize: '7px', letterSpacing: '0.4em',
+              fontSize: '9px', letterSpacing: '0.4em',
               color: 'rgba(242,235,217,0.2)', textTransform: 'uppercase',
               padding: '0 18px', height: '52px',
               display: 'flex', alignItems: 'center', cursor: 'pointer',
@@ -427,7 +427,7 @@ export default function PartnerPage() {
             onClick={() => setActiveTab(t.id)}
             style={{
               padding: '0 28px', height: '44px', flexShrink: 0,
-              fontSize: '9px', letterSpacing: '0.3em', textTransform: 'uppercase',
+              fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase',
               color: activeTab === t.id ? (t.id === 'cta' ? TEAL : GOLD) : MUTED,
               background: 'none', border: 'none',
               borderBottom: activeTab === t.id

@@ -23,7 +23,7 @@ const CREAM = '#F2EBD9';
 const MUTED = 'rgba(242,235,217,0.4)';
 
 const sLabel: React.CSSProperties = {
-  fontSize: '9px', letterSpacing: '0.6em', color: GOLD,
+  fontSize: '11px', letterSpacing: '0.6em', color: GOLD,
   textTransform: 'uppercase', marginBottom: '36px',
   display: 'flex', alignItems: 'center', gap: '14px',
 };
@@ -34,7 +34,7 @@ const sTitle: React.CSSProperties = {
   color: CREAM,
 };
 const bodyText: React.CSSProperties = {
-  fontSize: '13px', lineHeight: 1.85, color: MUTED,
+  fontSize: '15px', lineHeight: 1.85, color: MUTED,
   maxWidth: '680px', marginBottom: '20px',
 };
 const section: React.CSSProperties = {
@@ -49,24 +49,24 @@ const cardBase: React.CSSProperties = {
 };
 const cardTitle: React.CSSProperties = {
   fontFamily: "'Unbounded', sans-serif",
-  fontSize: '14px', fontWeight: 700,
+  fontSize: '16px', fontWeight: 700,
   color: GOLD, letterSpacing: '0.04em', marginBottom: '10px',
 };
 const cardSub: React.CSSProperties = {
-  fontSize: '9px', letterSpacing: '0.2em',
+  fontSize: '11px', letterSpacing: '0.2em',
   color: MUTED, textTransform: 'uppercase', marginBottom: '16px',
 };
-const cardBody: React.CSSProperties = { fontSize: '12px', lineHeight: 1.75, color: MUTED };
+const cardBody: React.CSSProperties = { fontSize: '14px', lineHeight: 1.75, color: MUTED };
 const statNum: React.CSSProperties = {
   fontFamily: "'Unbounded', sans-serif",
   fontSize: 'clamp(24px,3.5vw,44px)', fontWeight: 700,
   color: GOLD, lineHeight: 1, marginBottom: '6px',
 };
 const statLabel: React.CSSProperties = {
-  fontSize: '9px', letterSpacing: '0.25em', color: MUTED, textTransform: 'uppercase',
+  fontSize: '11px', letterSpacing: '0.25em', color: MUTED, textTransform: 'uppercase',
 };
 const tag: React.CSSProperties = {
-  padding: '4px 12px', fontSize: '9px', letterSpacing: '0.2em',
+  padding: '4px 12px', fontSize: '11px', letterSpacing: '0.2em',
   border: '1px solid rgba(200,168,75,0.2)', color: MUTED, textTransform: 'uppercase',
 };
 
@@ -127,7 +127,7 @@ function QuoteBlock({ text, attr }: { text: string; attr: string }) {
         fontSize: 'clamp(13px,1.8vw,20px)', fontWeight: 300,
         lineHeight: 1.6, color: '#fff', marginBottom: '8px',
       }}>{text}</div>
-      <div style={{ fontSize: '8px', letterSpacing: '0.4em', color: GOLD, textTransform: 'uppercase' }}>{attr}</div>
+      <div style={{ fontSize: '10px', letterSpacing: '0.4em', color: GOLD, textTransform: 'uppercase' }}>{attr}</div>
     </div>
   );
 }
@@ -136,7 +136,7 @@ function HomeTab() {
   return (
     <>
       <div style={{ ...section, paddingTop: '80px', background: `linear-gradient(to bottom, ${GREEN} 0%, ${BG} 100%)` }}>
-        <div style={{ fontSize: '9px', letterSpacing: '0.4em', color: GOLD, textTransform: 'uppercase', marginBottom: '16px' }}>Investor Portal</div>
+        <div style={{ fontSize: '11px', letterSpacing: '0.4em', color: GOLD, textTransform: 'uppercase', marginBottom: '16px' }}>Investor Portal</div>
         <h1 style={{ fontFamily: "'Unbounded', sans-serif", fontSize: 'clamp(52px,8vw,96px)', fontWeight: 900, lineHeight: 0.92, letterSpacing: '-0.03em', color: CREAM, marginBottom: '0' }}>
           Welcome<br />to the
         </h1>
@@ -202,9 +202,9 @@ function BrandTab() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
           <div style={{ fontFamily: "'Unbounded', sans-serif", fontSize: '90px', fontWeight: 900, color: 'rgba(200,168,75,0.15)', lineHeight: 1, flexShrink: 0 }}>01</div>
           <div>
-            <div style={{ fontSize: '8px', letterSpacing: '0.6em', color: GOLD, textTransform: 'uppercase', marginBottom: '8px' }}>The Thesis</div>
+            <div style={{ fontSize: '10px', letterSpacing: '0.6em', color: GOLD, textTransform: 'uppercase', marginBottom: '8px' }}>The Thesis</div>
             <div style={{ fontFamily: "'Unbounded', sans-serif", fontSize: 'clamp(26px,4vw,50px)', fontWeight: 700, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.02em' }}>The lineage.</div>
-            <div style={{ fontSize: '11px', color: MUTED, marginTop: '10px', lineHeight: 1.7, maxWidth: '560px' }}>From dub to jungle to drum &amp; bass to house to techno — the thread is documentable. Zungu doesn&apos;t claim it. It demonstrates it.</div>
+            <div style={{ fontSize: '13px', color: MUTED, marginTop: '10px', lineHeight: 1.7, maxWidth: '560px' }}>From dub to jungle to drum &amp; bass to house to techno — the thread is documentable. Zungu doesn&apos;t claim it. It demonstrates it.</div>
           </div>
         </div>
       </div>
@@ -281,7 +281,7 @@ function StagesTab() {
             >
               <div>
                 <div style={{ fontFamily: "'Unbounded', sans-serif", fontSize: '18px', fontWeight: 700, color: CREAM }}>{stage.name}</div>
-                <div style={{ fontSize: '9px', letterSpacing: '0.2em', color: MUTED, textTransform: 'uppercase', marginTop: '6px' }}>{stage.label}</div>
+                <div style={{ fontSize: '11px', letterSpacing: '0.2em', color: MUTED, textTransform: 'uppercase', marginTop: '6px' }}>{stage.label}</div>
               </div>
               <div style={{ color: GOLD, fontSize: '24px', fontWeight: 300 }}>{open[stage.id] ? '−' : '+'}</div>
             </div>
@@ -402,12 +402,12 @@ function BudgetTab() {
   ];
 
   const thStyle: React.CSSProperties = {
-    fontSize: '9px', letterSpacing: '0.3em', color: GOLD,
+    fontSize: '11px', letterSpacing: '0.3em', color: GOLD,
     textTransform: 'uppercase', padding: '12px 16px', textAlign: 'left',
     borderBottom: '1px solid rgba(200,168,75,0.2)',
   };
   const tdStyle: React.CSSProperties = {
-    fontSize: '11px', color: MUTED, padding: '12px 16px',
+    fontSize: '13px', color: MUTED, padding: '12px 16px',
     borderBottom: '1px solid rgba(200,168,75,0.06)',
   };
 
@@ -516,7 +516,7 @@ export default function DeckPage() {
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
-                fontSize: '8px', letterSpacing: '0.4em',
+                fontSize: '9px', letterSpacing: '0.4em',
                 color: activeTab === t.id ? GOLD : MUTED,
                 textTransform: 'uppercase', padding: '0 18px', height: '52px',
                 display: 'flex', alignItems: 'center', cursor: 'pointer',
@@ -531,7 +531,7 @@ export default function DeckPage() {
           <button
             onClick={() => signOut(() => router.push('/'))}
             style={{
-              fontSize: '7px', letterSpacing: '0.4em',
+              fontSize: '9px', letterSpacing: '0.4em',
               color: 'rgba(242,235,217,0.2)', textTransform: 'uppercase',
               padding: '0 18px', height: '52px',
               display: 'flex', alignItems: 'center', cursor: 'pointer',
@@ -556,7 +556,7 @@ export default function DeckPage() {
             onClick={() => setActiveTab(t.id)}
             style={{
               padding: '0 28px', height: '44px', flexShrink: 0,
-              fontSize: '9px', letterSpacing: '0.3em', textTransform: 'uppercase',
+              fontSize: '10px', letterSpacing: '0.3em', textTransform: 'uppercase',
               color: activeTab === t.id ? GOLD : MUTED,
               background: 'none', border: 'none',
               borderBottom: activeTab === t.id ? `2px solid ${GOLD}` : '2px solid transparent',
